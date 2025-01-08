@@ -61,19 +61,14 @@ def srt_to_lrc(srt_content):
 
 def convert(directory):
     for filename in os.listdir(directory):
-        print(f"Converting {filename}...")
         if filename.endswith('.mp3.vtt'):
             vtt_path = os.path.join(directory, filename)
             lrc_path = os.path.join(directory, filename.replace('.mp3.vtt', '.lrc'))
-            
             with open(vtt_path, 'r', encoding='utf-8') as vtt_file:
                 vtt_content = vtt_file.read()
-            
             lrc_content = vtt_to_lrc(vtt_content)
-            
             with open(lrc_path, 'w', encoding='utf-8') as lrc_file:
                 lrc_file.write(lrc_content)
-            
             print(f"✓ Created {lrc_path}")
         elif filename.endswith('.vtt'):
             vtt_path = os.path.join(directory, filename)
@@ -81,29 +76,19 @@ def convert(directory):
             
             with open(vtt_path, 'r', encoding='utf-8') as vtt_file:
                 vtt_content = vtt_file.read()
-            
             lrc_content = vtt_to_lrc(vtt_content)
-            
             with open(lrc_path, 'w', encoding='utf-8') as lrc_file:
                 lrc_file.write(lrc_content)
-            
             print(f"✓ Created {lrc_path}")
         elif filename.endswith('.srt'):
-            print(f"Converting {filename}...")
             srt_path = os.path.join(directory, filename)
             lrc_path = os.path.join(directory, filename.replace('.srt', '.lrc'))
-            
             with open(srt_path, 'r', encoding='utf-8') as srt_file:
                 srt_content = srt_file.read()
-            
             lrc_content = srt_to_lrc(srt_content)
-            
             with open(lrc_path, 'w', encoding='utf-8') as lrc_file:
                 lrc_file.write(lrc_content)
-            
             print(f"✓ Created {lrc_path}")
-        else:
-            print(f"Error converting {filename}: Format not supported.")
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
