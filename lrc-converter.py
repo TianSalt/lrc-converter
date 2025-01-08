@@ -4,27 +4,23 @@ import sys
 
 def vtt_to_lrc(vtt_content):
     lrc_content = []
-    lines = vtt_content.strip().split('\n')
-    
-    # Skip the first 2 lines which is "WEBVTT\n"
-    lines = lines[2:]
-    
-    for i in range(0, len(lines), 3):
-        if i + 1 >= len(lines):
-            break
+    srt_blocks = re.split(r'\n\n+', vtt_content.strip())
+    for block in srt_blocks:
+        lines = block.split('\n')
+        if len(lines) < 3:
+            continue 
         
         # Extract the timestamp line
-        timestamp_line = lines[i].strip()
-        start_time, end_time = timestamp_line.split(' --> ')
+        timestamp_line = lines[1]
+        start_time, _ = timestamp_line.split(' --> ')
+        start_time = start_time[3:][:8]
         
-        # Convert VTT timestamp to LRC format
-        start_time = start_time[:8]  # Keep only HH:MM.SS
-        
-        # Extract the text line
-        text_line = lines[i + 1].strip()
+        # Extract the text lines
+        text_lines = lines[2:]
+        text = ' '.join(text_lines)
         
         # Format the LRC line
-        lrc_line = f"[{start_time}]{text_line}"
+        lrc_line = f"[{start_time}]{text}"
         lrc_content.append(lrc_line)
     
     return '\n'.join(lrc_content)
@@ -40,7 +36,7 @@ def srt_to_lrc(srt_content):
         
         # Extract the timestamp line
         timestamp_line = lines[1]
-        start_time, end_time = timestamp_line.split(' --> ')
+        start_time, _ = timestamp_line.split(' --> ')
         
         # Convert SRT timestamp to LRC format
         hhmmss, millisecond = start_time.split(',')
