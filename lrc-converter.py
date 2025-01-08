@@ -74,7 +74,7 @@ def convert(directory):
             with open(lrc_path, 'w', encoding='utf-8') as lrc_file:
                 lrc_file.write(lrc_content)
             
-            print(f"Created {lrc_path}")
+            print(f"✓ Created {lrc_path}")
         elif filename.endswith('.vtt'):
             vtt_path = os.path.join(directory, filename)
             lrc_path = os.path.join(directory, filename.replace('.vtt', '.lrc'))
@@ -87,7 +87,7 @@ def convert(directory):
             with open(lrc_path, 'w', encoding='utf-8') as lrc_file:
                 lrc_file.write(lrc_content)
             
-            print(f"Created {lrc_path}")
+            print(f"✓ Created {lrc_path}")
         elif filename.endswith('.srt'):
             print(f"Converting {filename}...")
             srt_path = os.path.join(directory, filename)
@@ -101,7 +101,7 @@ def convert(directory):
             with open(lrc_path, 'w', encoding='utf-8') as lrc_file:
                 lrc_file.write(lrc_content)
             
-            print(f"Created {lrc_path}")
+            print(f"✓ Created {lrc_path}")
         else:
             print(f"Error converting {filename}: Format not supported.")
 
