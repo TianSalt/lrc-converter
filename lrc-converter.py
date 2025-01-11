@@ -13,7 +13,16 @@ def vtt_to_lrc(vtt_content):
         # Extract the timestamp line
         timestamp_line = lines[1]
         start_time, _ = timestamp_line.split(' --> ')
-        start_time = start_time[3:][:8]
+
+        # Convert VTT timestamp to LRC format
+        hhmmss_or_mmss, millisecond = start_time.split('.')
+        millisecond = millisecond[:2]
+        if (len(hhmmss_or_mmss) == 3):
+            hour, minute, second = hhmmss_or_mmss.split(':')
+            minute = (int(hour) * 60 + int(minute)) % 100
+            start_time = f"{minute:02d}:{second}.{millisecond}"
+        else:
+            start_time = f"{hhmmss_or_mmss}.{millisecond}"
         
         # Extract the text lines
         text_lines = lines[2:]
@@ -69,7 +78,6 @@ def convert(directory):
         elif filename.endswith('.vtt'):
             vtt_path = os.path.join(directory, filename)
             lrc_path = os.path.join(directory, filename.replace('.vtt', '.lrc'))
-            
             with open(vtt_path, 'r', encoding='utf-8') as vtt_file:
                 vtt_content = vtt_file.read()
             lrc_content = vtt_to_lrc(vtt_content)
