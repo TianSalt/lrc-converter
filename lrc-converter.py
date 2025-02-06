@@ -17,7 +17,7 @@ def vtt_to_lrc(vtt_content):
         # Convert VTT timestamp to LRC format
         hhmmss_or_mmss, millisecond = start_time.split('.')
         millisecond = millisecond[:2]
-        if (len(hhmmss_or_mmss) == 3):
+        if (len(hhmmss_or_mmss) == 8):
             hour, minute, second = hhmmss_or_mmss.split(':')
             minute = (int(hour) * 60 + int(minute)) % 100
             start_time = f"{minute:02d}:{second}.{millisecond}"
